@@ -272,9 +272,9 @@ void write_file_inode(struct inode ino, int blockn)
 	sprintf(filename, "%s%d", fusedata, ino_num);
 	fp = fopen(filename, "r+");
 	
-		    ino.size, ino.uid, ino.gid, ino.mode, ino.linkcount, ino.atime, ino.ctime, ino.mtime, ino.indirect, ino.location);
-	
 	fprintf(fp, "{size:%d, uid:%d, gid:%d, mode:%d, linkcount:%d, atime:%d, ctime:%d, mtime:%d, 
+		        indirect:%d, location:%d", ino.size, ino.uid, ino.gid, ino.mode, ino.linkcount, 
+		        ino.atime, ino.ctime, ino.mtime, ino.indirect, ino.location);
 
 	fputs("}", fp);
 	fputs("00000000000000000000000000000", fp);
@@ -871,7 +871,8 @@ static int vfs_rename(const char* from, const char* to)
 
 	if (to_name_idx == 0) {
 		j = block[to_parent_inode].subn;
-		block[to_parent_inode].filename_to_inode_dict[j] = block[from_parent_inode].filename_to_inode_dict[from_name_idx];
+		block[to_parent_inode].filename_to_inode_dict[j] 
+			= block[from_parent_inode].filename_to_inode_dict[from_name_idx];
 		strcpy(block[to_parent_inode].filename_to_inode_dict[j].name, to_name); 
 		block[to_parent_inode].subn++;
 		if (isFile == 0) {
@@ -882,7 +883,8 @@ static int vfs_rename(const char* from, const char* to)
 	
 	// modify from inode if it is a directory
 	if (isFile == 0) {
-		block[from_inode].filename_to_inode_dict[1].inode = block[to_parent_inode].filename_to_inode_dict[0].inode;
+		block[from_inode].filename_to_inode_dict[1].inode 
+			= block[to_parent_inode].filename_to_inode_dict[0].inode;
 		write_dir_inode(block[from_inode]); 
 	}
 	
@@ -898,7 +900,8 @@ static int vfs_rename(const char* from, const char* to)
 		}
 		else {
 			for(i = from_name_idx; i < MAX_FILE_NUM; i++) {
-				block[from_parent_inode].filename_to_inode_dict[i] = block[from_parent_inode].filename_to_inode_dict[i + 1];
+				block[from_parent_inode].filename_to_inode_dict[i] 
+					= block[from_parent_inode].filename_to_inode_dict[i + 1];
 			}
 		}
 	
@@ -949,7 +952,8 @@ static int vfs_unlink(const char* path)
 		}
 		else {
 			for(i = idxinparentino; i < MAX_FILE_NUM; i++) {
-				block[parent_inoden].filename_to_inode_dict[i] = block[parent_inoden].filename_to_inode_dict[i + 1];
+				block[parent_inoden].filename_to_inode_dict[i] 
+					= block[parent_inoden].filename_to_inode_dict[i + 1];
 			}
 	}
 
@@ -972,7 +976,8 @@ static int vfs_rmdir(const char* path)
 		}
 		else {
 			for(i = idxinparentino; i < MAX_FILE_NUM; i++) {
-				block[parent_inoden].filename_to_inode_dict[i] = block[parent_inoden].filename_to_inode_dict[i + 1];
+				block[parent_inoden].filename_to_inode_dict[i] 
+					= block[parent_inoden].filename_to_inode_dict[i + 1];
 			}
 	}
 	memset(&block[inode], 0, sizeof(block[inode]));
@@ -1075,13 +1080,13 @@ static int vfs_truncate(const char* path, off_t size)
 
 
 static struct fuse_operations vfs_oper = {
-	.getattr	= vfs_getattr,
+	.getattr    = vfs_getattr,
 	.opendir    = vfs_opendir,
-	.readdir	= vfs_readdir,
+	.readdir    = vfs_readdir,
 	.releasedir = vfs_releasedir,
-	.open		= vfs_open,
-	.read		= vfs_read,
-	.init		= vfs_init,
+	.open       = vfs_open,
+	.read       = vfs_read,
+	.init       = vfs_init,
 	.create	    = vfs_create,
 	.mkdir      = vfs_mkdir,
 	.rmdir      = vfs_rmdir,
