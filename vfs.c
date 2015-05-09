@@ -1,21 +1,6 @@
 /*
-  compile:
-  $ gcc -Wall vfs.c `pkg-config fuse --cflags --libs` -o vfs
-
-  need root privilege to mount this file system:
-  $ ./vfs /tmp/fuse
-
-  supported linux commands:
-  $ touch
-  $ mkdir
-  $ mv
-  $ echo
-  $ cat
-  $ ln
-  $ rm
-  $ rm -r
-  $ df
-  $ cp
+  Author: Donghang Lin
+  Date:   2015-5-9
 */
 
 #define FUSE_USE_VERSION 26
@@ -275,6 +260,9 @@ void write_file_inode(struct inode ino, int blockn)
 	fprintf(fp, "{size:%d, uid:%d, gid:%d, mode:%d, linkcount:%d, atime:%d, ctime:%d, mtime:%d, 
 		        indirect:%d, location:%d", ino.size, ino.uid, ino.gid, ino.mode, ino.linkcount, 
 		        ino.atime, ino.ctime, ino.mtime, ino.indirect, ino.location);
+
+	fprintf(fp, "{size:%d, uid:%d, gid:%d, mode:%d, linkcount:%d, atime:%d, ctime:%d, mtime:%d, indirect:%d, location:%d", 
+		    ino.size, ino.uid, ino.gid, ino.mode, ino.linkcount, ino.atime, ino.ctime, ino.mtime, ino.indirect, ino.location);
 
 	fputs("}", fp);
 	fputs("00000000000000000000000000000", fp);
