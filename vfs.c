@@ -261,9 +261,6 @@ void write_file_inode(struct inode ino, int blockn)
 		        indirect:%d, location:%d", ino.size, ino.uid, ino.gid, ino.mode, ino.linkcount, 
 		        ino.atime, ino.ctime, ino.mtime, ino.indirect, ino.location);
 
-	fprintf(fp, "{size:%d, uid:%d, gid:%d, mode:%d, linkcount:%d, atime:%d, ctime:%d, mtime:%d, indirect:%d, location:%d", 
-		    ino.size, ino.uid, ino.gid, ino.mode, ino.linkcount, ino.atime, ino.ctime, ino.mtime, ino.indirect, ino.location);
-
 	fputs("}", fp);
 	fputs("00000000000000000000000000000", fp);
 	fclose(fp);
