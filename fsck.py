@@ -31,7 +31,7 @@ else:
 
 	if (change):
 		f.write(superblock[0] + "," + superblock[1] + "," + superblock[2] + "," + superblock[3] + \
-			                    "," + superblock[4] + "," + superblock[5] + "," + superblock[6])
+		                        "," + superblock[4] + "," + superblock[5] + "," + superblock[6])
 	else:
 		f.write(cont)
 		print "Superblock is correct."
@@ -93,16 +93,16 @@ else:
 				if (dotblock.group() != str(block)):
 					dicts[dirfile] = "d:.:" + str(block)
 					wrong = True
-					print "Block " + str(block) + ": the . directory's block is wrong, correct it to " + \
-					      str(block)
+					print "Block " + str(block) + ": the . directory's block is wrong, " + \
+					      "correct it to " + str(block)
 			if (dotdot != None):
 				isDotdot = True
 				dotblock = re.search(r'\d+', dotdot.group())
 				if (dotblock.group() != parentTable[str(block)]):
 					dicts[dirfile] = "d:..:" + parentTable[str(block)]
 					wrong = True
-					print "Block " + str(block) + ": the .. directory's block is wrong, correct it to " + \
-					      parentTable[str(block)]
+					print "Block " + str(block) + ": the .. directory's block is wrong, " + \
+					      "correct it to " + parentTable[str(block)]
 			if (file != None):
 				fileinode = re.findall(r'\d+', file.group())[-1]
 				files.append(int(fileinode))
@@ -114,13 +114,13 @@ else:
 		if (not isDot):
 			makeup = makeup + "d:.:" + str(block) + ", "
 			wrong = True
-			print "Block " + str(block) + \
-			      ": this directory doesn't contain . directory, add . directory to filename_to_inode_dict"
+			print "Block " + str(block) + ": this directory doesn't contain . directory, " + \
+			      "add . directory to filename_to_inode_dict"
 		if (not isDotdot):
 			makeup = makeup + "d:..:" + parentTable[str(block)] + ", "
 			wrong = True
-			print "Block " + str(block) + \
-			      ": this directory doesn't contain .. directory, add .. directory to filename_to_inode_dict"
+			print "Block " + str(block) + ": this directory doesn't contain .. directory, " + \
+			      "add .. directory to filename_to_inode_dict"
 
 		if (linkcount.group() != str(len(dir) - 8 + int(not isDot) + int(not isDotdot))):
 			dir[7] = " linkcount:" + str(len(dir) - 8)
@@ -131,7 +131,7 @@ else:
 		if (wrong):
 			f = open(FUSEDATA + str(block), "w")
 			f.write(dir[0] + "," + dir[1] + "," + dir[2] + "," + dir[3] + ","+ dir[4] + ","+ dir[5] + \
-				             "," + dir[6] + "," + dir[7] + ", filename_to_inode_dict: {" + makeup)
+			                 "," + dir[6] + "," + dir[7] + ", filename_to_inode_dict: {" + makeup)
 			for i in range(len(dicts) - 1):
 				f.write(dicts[i] + ",")
 			f.write(dicts[len(dicts) - 1] + "}}")
@@ -165,17 +165,17 @@ else:
 			file[5] = " atime:" + str(now)
 			wrong = True
 			print "Block " + str(block) + ": atime of this file is wrong, correct it to now (" + \
-				  str(now) + ")"
+			      str(now) + ")"
 		if (int(ctime.group()) > int(now)):
 			file[6] = " ctime:" + str(now)
 			wrong = True
 			print "Block " + str(block) + ": ctime of this file is wrong, correct it to now (" + \
-				  str(now) + ")"
+			      str(now) + ")"
 		if (int(mtime.group()) > int(now)):
 			file[7] = " mtime:" + str(now)
 			wrong = True
 			print "Block " + str(block) + ": mtime of this file is wrong, correct it to now (" + \
-				  str(now) + ")"
+			      str(now) + ")"
 
 		arrayinfo = array(int(location.group()))
 		arraynum = arrayinfo[0]
@@ -224,7 +224,8 @@ else:
 		if (wrong):
 			f = open(FUSEDATA + str(block), "w")
 			f.write(file[0] + ',' + file[1] + ',' + file[2] + ',' + file[3] + ',' + file[4] + ',' + \
-				    file[5] + ',' + file[6] + ',' + file[7] + ', ' + indirect_location[1] + " " + indirect_location[2])
+					file[5] + ',' + file[6] + ',' + file[7] + ', ' + indirect_location[1] + " " + \
+					indirect_location[2])
 			f.close()
 		else:
 			print "Block " + str(block) + ": this file is correct."
