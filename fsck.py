@@ -224,8 +224,8 @@ else:
 		if (wrong):
 			f = open(FUSEDATA + str(block), "w")
 			f.write(file[0] + ',' + file[1] + ',' + file[2] + ',' + file[3] + ',' + file[4] + ',' + \
-					file[5] + ',' + file[6] + ',' + file[7] + ', ' + indirect_location[1] + " " + \
-					indirect_location[2])
+			        file[5] + ',' + file[6] + ',' + file[7] + ', ' + indirect_location[1] + " " + \
+			        indirect_location[2])
 			f.close()
 		else:
 			print "Block " + str(block) + ": this file is correct."
