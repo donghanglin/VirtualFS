@@ -4,7 +4,7 @@ It is a file-based file system which simulates a file system working with block 
 - **Environment**  
   Ubuntu 14.04.2 LTS
 - **Dependency**
-  - [FUSE](fuse.sourceforge.net): 2.9.3
+  - [FUSE](http://fuse.sourceforge.net): 2.9.3
 - **Compile**  
 
   ```sh
